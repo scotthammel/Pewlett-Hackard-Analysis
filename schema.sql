@@ -18,8 +18,8 @@ CREATE TABLE employees(
 );
 
 -- Create table for Dept. Managers
-CREATE TABLE Managers (
-	dept_no VARCHAR(4) NOT NULL,
+CREATE TABLE dept_manager (
+dept_no VARCHAR(4) NOT NULL,
     emp_no INT NOT NULL,
     from_date DATE NOT NULL,
     to_date DATE NOT NULL,
@@ -38,26 +38,79 @@ CREATE TABLE salaries (
   PRIMARY KEY (emp_no)
 );
 
-CREATE TABLE "Department Employees" (
-	dept_no VARCHAR NOT NULL,
+CREATE TABLE dept_emp (
+dept_no VARCHAR (4) NOT NULL,
 	emp_no INT NOT NULL,
 	from_date DATE NOT NULL,
 	to_date DATE NOT NULL,
-	FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
-	FOREIGN KEY (dept_no) REFERENCES departments (dept_no),
-    PRIMARY KEY (emp_no, dept_no)
+FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
+FOREIGN KEY (dept_no) REFERENCES departments (dept_no),
+	PRIMARY KEY (emp_no, dept_no)
 );
 
-CREATE TABLE Titles (
-	emp_no VARCHAR NOT NULL,
+CREATE TABLE titles (
+	emp_no VARCHAR (5) NOT NULL,
 	title INT NOT NULL,
 	from_date DATE NOT NULL,
 	to_date DATE NOT NULL,
-	FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
-	FOREIGN KEY (title) REFERENCES Titles (title),
-	FOREIGN KEY (from_date) REFERENCES from_date (from_date),
-	PRIMARY KEY (emp_no)
+FOREIGN KEY (emp_no) REFERENCES employees (emp_no),
+FOREIGN KEY (title) REFERENCES titles (title),
+	UNIQUE (from_date),
+	UNIQUE (title),
+	PRIMARY KEY (emp_no, title, from_date)
 );
 
 
+
 SELECT * FROM departments;
+
+SELECT * FROM employees;
+
+SELECT * FROM dept_manager;
+
+SELECT * FROM titles;
+
+SELECT * FROM salaries;
+
+SELECT * FROM dept_emp;
+
+DROP TABLE employees CASCADE;
+
+-- Determine Retirement Eligibility
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1952-01-01' AND '1955-12-31';
+
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1952-01-01' AND '1952-12-31';
+
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1953-01-01' AND '1953-12-31';
+
+
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1954-01-01' AND '1954-12-31';
+
+SELECT first_name, last_name
+FROM employees
+WHERE birth_date BETWEEN '1955-01-01' AND '1955-12-31';
+
+-- Retirement eligibility - create table 
+SELECT first_name, last_name
+INTO retirement_info
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
+
+-- Check the table
+SELECT * FROM retirement_info;
+
+-- Count the Queries
+-- Number of employees retiring
+SELECT COUNT(first_name)
+FROM employees
+WHERE (birth_date BETWEEN '1952-01-01' AND '1955-12-31')
+AND (hire_date BETWEEN '1985-01-01' AND '1988-12-31');
