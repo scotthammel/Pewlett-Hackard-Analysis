@@ -30,4 +30,9 @@
 
 - Other: Promote staff earlier into management roles to balance out the data.
 
+#### Script Examples: Determining "mentorship program" eligibility
+<img width="626" alt="Screen Shot 2021-04-25 at 3 19 06 PM" src="https://user-images.githubusercontent.com/77898345/116008372-ce25c480-a5d9-11eb-9944-834c39f059ef.png">
+
+
+
 
